@@ -20,6 +20,7 @@ func main() {
 	conf, err := config.LoadConfig(config.ConfigPath)
 	if err != nil {
 		logger.Error("Failed to load config", "path", config.ConfigPath, "err", err)
+		os.Exit(1)
 	}
 	logLevel.Set(conf.LogLevel)
 	logger.Debug("Successfully loaded config", "conf", conf)
