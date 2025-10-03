@@ -1,6 +1,6 @@
 module github.com/GaviDroselj/muSync
 
-go 1.24.4
+go 1.25.1
 
 require (
 	github.com/lrstanley/go-ytdlp v1.2.6
