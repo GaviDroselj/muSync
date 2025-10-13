@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/lrstanley/go-ytdlp v1.2.6
-	github.com/sebdah/goldie/v2 v2.7.1
+	github.com/sebdah/goldie/v2 v2.8.0
 )
 
 require (
