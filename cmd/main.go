@@ -28,7 +28,7 @@ func main() {
 	logger.Info("Downloading yt-dlp and ffmpeg...")
 	_, err = ytdlp.InstallAll(context.TODO())
 	if err != nil {
-		logger.Error("Failed to install yt-dlp, terminating", "err", err)
+		logger.Error("Failed to download yt-dlp, terminating", "err", err)
 		os.Exit(1)
 	}
 

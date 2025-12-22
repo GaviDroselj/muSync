@@ -1,5 +1,5 @@
 {
-    "log_level": "ERROR",
+    "log_level": "INFO",
     "playlists": [
         {
             "name": "Playlist1",

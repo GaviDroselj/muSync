@@ -1,0 +1,7 @@
+services:
+  musync:
+    image: ghcr.io/gavidroselj/musync
+    restart: always
+    volumes:
+      - config.json:/app/config.json
+      - /path/to/music/storage:/app/music

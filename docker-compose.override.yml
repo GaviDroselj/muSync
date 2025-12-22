@@ -1,0 +1,6 @@
+services:
+  musync:
+    volumes:
+      - ./config.json:/app/config.json
+      - ./ignore:/app/ignore
+    build: .
