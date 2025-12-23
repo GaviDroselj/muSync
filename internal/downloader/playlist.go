@@ -168,7 +168,7 @@ func (p *Playlist) ProcessQueue() bool {
 
 	targetSong := p.DownloadQueue[0]
 
-	p.logger.Debug("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
+	p.logger.Info("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
 	err = p.downloadSong(targetSong)
 	if err != nil {
 		p.logger.Error("Failed to download song", "err", err)
