@@ -7,18 +7,6 @@
       "url": "http://test.com/1",
       "title": "Song1",
       "deleted_iterations": 0
-    },
-    "2": {
-      "id": "2",
-      "url": "http://test.com/2",
-      "title": "Song2",
-      "deleted_iterations": 5
-    },
-    "3": {
-      "id": "3",
-      "url": "http://test.com/3",
-      "title": "Song3",
-      "deleted_iterations": 2
     }
   },
   "folder": "music/test",
