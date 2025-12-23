@@ -37,12 +37,11 @@ func NewPlaylist(c config.Config, pe config.PlaylistEntry, logger *slog.Logger) 
 		logger:        logger.With("playlist", pe.Name),
 		DownloadQueue: []Song{},
 	}
-	playlist.syncFromDisk()
 	return &playlist
 }
 
 // Create dummy songs from files that exist on disk but are untracked
-func (p *Playlist) syncFromDisk() {
+func (p *Playlist) SyncFromDisk() {
 	err := os.MkdirAll(p.Folder, os.ModePerm)
 	if err != nil {
 		p.logger.Error("Failed to create playlist directory", "err", err)

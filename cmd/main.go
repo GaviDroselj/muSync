@@ -38,6 +38,7 @@ func main() {
 
 	for _, confEntry := range conf.Playlists {
 		newPlaylist := downloader.NewPlaylist(conf, confEntry, logger)
+		newPlaylist.SyncFromDisk()
 
 		playlists = append(playlists, newPlaylist)
 	}
