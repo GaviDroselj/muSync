@@ -9,14 +9,15 @@ import (
 const ConfigPath = "config.json"
 
 type Config struct {
-	LogLevel  slog.Level      `json:"log_level"`
-	Playlists []PlaylistEntry `json:"playlists"`
+	LogLevel    slog.Level      `json:"log_level"`
+	MusicFolder string          `json:"music_folder"`
+	Playlists   []PlaylistEntry `json:"playlists"`
 }
 
 type PlaylistEntry struct {
-	Name   string `json:"name"`
-	URL    string `json:"url"`
-	Folder string `json:"folder"`
+	Name      string `json:"name"`
+	URL       string `json:"url"`
+	Subfolder string `json:"subfolder"`
 }
 
 func LoadConfig(path string) (Config, error) {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"path"
 	"regexp"
 	"slices"
 	"strings"
@@ -27,13 +28,13 @@ type Playlist struct {
 	logger *slog.Logger `json:"-"`
 }
 
-func NewPlaylist(conf config.PlaylistEntry, logger *slog.Logger) *Playlist {
+func NewPlaylist(c config.Config, pe config.PlaylistEntry, logger *slog.Logger) *Playlist {
 	playlist := Playlist{
-		Name:          conf.Name,
-		URL:           conf.URL,
-		Folder:        conf.Folder,
+		Name:          pe.Name,
+		URL:           pe.URL,
+		Folder:        path.Join(c.MusicFolder, pe.Subfolder),
 		Songs:         map[string]*Song{},
-		logger:        logger.With("playlist", conf.Name),
+		logger:        logger.With("playlist", pe.Name),
 		DownloadQueue: []Song{},
 	}
 	playlist.syncFromDisk()
@@ -42,6 +43,10 @@ func NewPlaylist(conf config.PlaylistEntry, logger *slog.Logger) *Playlist {
 
 // Create dummy songs from files that exist on disk but are untracked
 func (p *Playlist) syncFromDisk() {
+	err := os.MkdirAll(p.Folder, os.ModePerm)
+	if err != nil {
+		p.logger.Error("Failed to create playlist directory", "err", err)
+	}
 	dir, err := os.ReadDir(p.Folder)
 	if err != nil {
 		p.logger.Error("Failed to sync from disk", "err", err)
@@ -163,7 +168,7 @@ func (p *Playlist) ProcessQueue() bool {
 
 	targetSong := p.DownloadQueue[0]
 
-	p.logger.Debug("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
+	p.logger.Info("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
 	err = p.downloadSong(targetSong)
 	if err != nil {
 		p.logger.Error("Failed to download song", "err", err)
