@@ -37,7 +37,7 @@ func main() {
 	var playlists []*downloader.Playlist
 
 	for _, confEntry := range conf.Playlists {
-		newPlaylist := downloader.NewPlaylist(confEntry, logger)
+		newPlaylist := downloader.NewPlaylist(conf, confEntry, logger)
 
 		playlists = append(playlists, newPlaylist)
 	}

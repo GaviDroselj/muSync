@@ -1,15 +1,16 @@
 {
     "log_level": "INFO",
+    "music_folder": "music",
     "playlists": [
         {
             "name": "Playlist1",
             "URL": "https://www.youtube.com/playlist?list=abcd1234",
-            "folder": "path/to/folder1"
+            "subfolder": "folder1"
         },
         {
             "name": "Playlist2",
             "URL": "https://www.youtube.com/playlist?list=efgh5678",
-            "folder": "path/to/folder2"
+            "subfolder": "folder2"
         }
     ]
 }

@@ -9,10 +9,12 @@ import (
 )
 
 func getTestingPlaylist() *Playlist {
-	playlist := NewPlaylist(config.PlaylistEntry{
-		Name:   "test",
-		URL:    "http://test.com/test",
-		Folder: "ignore/test",
+	playlist := NewPlaylist(config.Config{
+		MusicFolder: "music",
+	}, config.PlaylistEntry{
+		Name:      "test",
+		URL:       "http://test.com/test",
+		Subfolder: "test",
 	}, slog.Default())
 
 	playlist.Songs = map[string]*Song{
