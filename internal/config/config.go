@@ -1,23 +1,24 @@
 package config
 
 import (
-	"encoding/json"
 	"log/slog"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
-const ConfigPath = "config.json"
+const ConfigPath = "config.yml"
 
 type Config struct {
-	LogLevel    slog.Level      `json:"log_level"`
-	MusicFolder string          `json:"music_folder"`
-	Playlists   []PlaylistEntry `json:"playlists"`
+	LogLevel    slog.Level      `yaml:"log_level"`
+	MusicFolder string          `yaml:"music_folder"`
+	Playlists   []PlaylistEntry `yaml:"playlists"`
 }
 
 type PlaylistEntry struct {
-	Name      string `json:"name"`
-	URL       string `json:"url"`
-	Subfolder string `json:"subfolder"`
+	Name      string `yaml:"name"`
+	URL       string `yaml:"url"`
+	Subfolder string `yaml:"subfolder"`
 }
 
 func LoadConfig(path string) (Config, error) {
@@ -27,7 +28,7 @@ func LoadConfig(path string) (Config, error) {
 	}
 
 	conf := Config{}
-	err = json.Unmarshal(data, &conf)
+	err = yaml.Unmarshal(data, &conf)
 	if err != nil {
 		return Config{}, err
 	}
