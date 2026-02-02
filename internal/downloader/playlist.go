@@ -87,10 +87,13 @@ func (p *Playlist) Update() {
 // Get song list from URL
 func (p *Playlist) fetchPlaylistSongs() ([]Song, error) {
 	dl := ytdlp.New().
+		FlatPlaylist().
 		PrintJSON().
 		Simulate()
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*30)
+	defer cancel()
 
-	result, err := dl.Run(context.TODO(), p.URL)
+	result, err := dl.Run(ctx, p.URL)
 	if err != nil {
 		p.logger.Error("Failed to query playlist", "err", err)
 		return nil, err

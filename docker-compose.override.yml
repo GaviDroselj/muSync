@@ -2,5 +2,5 @@ services:
   musync:
     volumes:
       - ./config.json:/app/config.json
-      - ./ignore:/app/ignore
+      - ./music:/app/music
     build: .
