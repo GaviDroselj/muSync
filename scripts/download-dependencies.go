@@ -1,19 +1,13 @@
 package main
 
 import (
-	"context"
 	"log/slog"
 	"os"
 
-	"github.com/GaviDroselj/go-ytdlp"
+	"github.com/GaviDroselj/muSync/internal/downloader"
 )
 
 func main() {
-	slog.Info("Downloading yt-dlp dependencies...")
-	_, err := ytdlp.InstallAll(context.TODO())
-	if err != nil {
-		slog.Error("Failed to download yt-dlp dependencies, terminating", "err", err)
-		os.Exit(1)
-	}
-	slog.Info("Successfully downloaded yt-dlp dependencies")
+	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
+	downloader.DonwloadDependencies(logger)
 }

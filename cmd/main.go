@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log/slog"
 	"os"
 	"time"
@@ -25,12 +24,7 @@ func main() {
 	logLevel.Set(conf.LogLevel)
 	logger.Debug("Successfully loaded config", "conf", conf)
 
-	logger.Info("Downloading yt-dlp and ffmpeg...")
-	_, err = ytdlp.InstallAll(context.TODO())
-	if err != nil {
-		logger.Error("Failed to download yt-dlp, terminating", "err", err)
-		os.Exit(1)
-	}
+	downloader.DonwloadDependencies(logger)
 
 	logger.Info("muSync started", "version", ytdlp.Version, "logLevel", logLevel)
 
