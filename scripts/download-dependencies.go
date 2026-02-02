@@ -4,10 +4,10 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/GaviDroselj/muSync/internal/downloader"
+	"github.com/GaviDroselj/muSync/dependencies"
 )
 
 func main() {
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
-	downloader.DonwloadDependencies(logger)
+	dependencies.DonwloadDependencies(logger)
 }

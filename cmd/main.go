@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/GaviDroselj/go-ytdlp"
+	"github.com/GaviDroselj/muSync/dependencies"
 	"github.com/GaviDroselj/muSync/internal/config"
 	"github.com/GaviDroselj/muSync/internal/downloader"
 )
@@ -24,7 +25,7 @@ func main() {
 	logLevel.Set(conf.LogLevel)
 	logger.Debug("Successfully loaded config", "conf", conf)
 
-	downloader.DonwloadDependencies(logger)
+	dependencies.DonwloadDependencies(logger)
 
 	logger.Info("muSync started", "version", ytdlp.Version, "logLevel", logLevel)
 

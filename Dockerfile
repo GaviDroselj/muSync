@@ -16,7 +16,8 @@ WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
 
-COPY . .
+COPY scripts scripts
+COPY dependencies dependencies
 
 RUN go run scripts/download-dependencies.go
 
