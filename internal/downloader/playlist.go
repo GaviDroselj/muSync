@@ -168,7 +168,7 @@ func (p *Playlist) ProcessQueue() bool {
 		return false
 	}
 
-	targetSong := p.DownloadQueue[0]
+	targetSong := p.DownloadQueue[len(p.DownloadQueue)-1]
 
 	p.logger.Info("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
 	err = p.downloadSong(targetSong)
@@ -179,7 +179,7 @@ func (p *Playlist) ProcessQueue() bool {
 
 	p.logger.Debug("Song downloaded successfuly")
 
-	p.DownloadQueue = p.DownloadQueue[1:]
+	p.DownloadQueue = p.DownloadQueue[:len(p.DownloadQueue)-1]
 	return true
 }
 
