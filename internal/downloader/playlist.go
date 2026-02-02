@@ -211,6 +211,7 @@ func (p *Playlist) downloadSong(song Song) error {
 		EmbedMetadata().
 		AbortOnError().
 		NoPart().
+		SponsorblockRemove("sponsor,intro,outro,selfpromo,preview,interaction,music_offtopic").
 		ProgressFunc(time.Millisecond*200, func(update ytdlp.ProgressUpdate) {
 			p.logger.Debug("Downloading...", "progress", fmt.Sprintf("%.1f%%", update.Percent()), "ETA", update.ETA())
 		}).
