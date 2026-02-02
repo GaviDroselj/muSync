@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/lrstanley/go-ytdlp"
+	"github.com/GaviDroselj/go-ytdlp"
 )
 
 const deletionGracePeriod = 1
@@ -76,7 +76,6 @@ func (s *Song) Delete(folderPath string) error {
 		if strings.Contains(entry.Name(), s.ID) {
 			slog.Debug("Deleting song file", "path", folderPath, "file", entry.Name())
 			err := os.Remove(fmt.Sprintf("%s/%s", folderPath, entry.Name()))
-
 			if err != nil {
 				return err
 			}
