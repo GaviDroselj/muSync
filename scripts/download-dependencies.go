@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/lrstanley/go-ytdlp"
+	"github.com/GaviDroselj/go-ytdlp"
 )
 
 func main() {

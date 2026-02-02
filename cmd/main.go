@@ -6,13 +6,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/GaviDroselj/go-ytdlp"
 	"github.com/GaviDroselj/muSync/internal/config"
 	"github.com/GaviDroselj/muSync/internal/downloader"
-	"github.com/lrstanley/go-ytdlp"
 )
 
 func main() {
-	var logLevel = new(slog.LevelVar)
+	logLevel := new(slog.LevelVar)
 	logLevel.Set(slog.LevelDebug)
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: logLevel}))
 	slog.SetDefault(logger)

@@ -11,8 +11,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/GaviDroselj/go-ytdlp"
 	"github.com/GaviDroselj/muSync/internal/config"
-	"github.com/lrstanley/go-ytdlp"
 )
 
 var fileIDRegex = regexp.MustCompile(`.*\[(.*)\].mp3`)
