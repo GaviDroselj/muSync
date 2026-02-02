@@ -3,5 +3,5 @@ services:
     image: ghcr.io/gavidroselj/musync
     restart: always
     volumes:
-      - config.json:/app/config.json
+      - config.yml:/app/config.yml
       - /path/to/music/storage:/app/music

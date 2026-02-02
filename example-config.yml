@@ -1,0 +1,9 @@
+log_level: INFO
+music_folder: music
+playlists:
+  - name: Playlist1
+    url: https://www.youtube.com/playlist?list=abcd1234
+    subfolder: folder1
+  - name: Playlist2
+    url: https://www.youtube.com/playlist?list=efgh5678
+    subfolder: folder2

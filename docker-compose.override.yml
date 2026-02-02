@@ -1,6 +1,6 @@
 services:
   musync:
     volumes:
-      - ./config.json:/app/config.json
+      - ./config.yml:/app/config.yml
       - ./music:/app/music
     build: .
