@@ -37,5 +37,5 @@ func main() {
 		playlists = append(playlists, newPlaylist)
 	}
 
-	downloader.Schedul(playlists, conf.DownloadStrategy)
+	downloader.Schedule(playlists, conf.DownloadStrategy)
 }
