@@ -127,7 +127,7 @@ func (p *Playlist) updateTrackedSongs(newSongs []Song) {
 			existingSongCount++
 		} else {
 			// song is untracked (new)
-			p.DownloadQueue = append(p.DownloadQueue, newSong)
+			p.pushQueue(newSong)
 			newSongCount++
 		}
 	}
@@ -149,6 +149,21 @@ func (p *Playlist) updateTrackedSongs(newSongs []Song) {
 	p.logger.Debug("Playlist updated", "newSongs", newSongCount, "existingSongs", existingSongCount, "deleteCountdownSongs", deleteCountdownSongCount, "deletedSongs", deletedSongCount)
 }
 
+func (p *Playlist) pushQueue(song Song) {
+	p.DownloadQueue = append(p.DownloadQueue, song)
+}
+
+func (p *Playlist) peekQueue() Song {
+	song := p.DownloadQueue[len(p.DownloadQueue)-1]
+	return song
+}
+
+func (p *Playlist) popQueue() Song {
+	song := p.peekQueue()
+	p.DownloadQueue = p.DownloadQueue[:len(p.DownloadQueue)-1]
+	return song
+}
+
 // Download one queue entry if available, return true if download occured
 func (p *Playlist) ProcessQueue() bool {
 	p.logger.Debug("Processing download queue...")
@@ -168,18 +183,22 @@ func (p *Playlist) ProcessQueue() bool {
 		return false
 	}
 
-	targetSong := p.DownloadQueue[len(p.DownloadQueue)-1]
+	targetSong := p.peekQueue()
 
 	p.logger.Info("Downloading song", "id", targetSong.ID, "song", targetSong.Title, "url", targetSong.URL)
 	err = p.downloadSong(targetSong)
 	if err != nil {
 		p.logger.Error("Failed to download song", "err", err)
+
+		if strings.Contains(err.Error(), "Video unavailable.") || strings.Contains(err.Error(), "Private video.") {
+			p.popQueue()
+		}
 		return false
 	}
 
 	p.logger.Debug("Song downloaded successfuly")
 
-	p.DownloadQueue = p.DownloadQueue[:len(p.DownloadQueue)-1]
+	p.popQueue()
 	return true
 }
 
