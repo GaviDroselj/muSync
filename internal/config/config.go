@@ -9,10 +9,20 @@ import (
 
 const ConfigPath = "config.yml"
 
+
+type DownloadStrategy string 
+
+const (
+	Priority		DownloadStrategy = "PRIORITY"	
+	RoundRobin	DownloadStrategy = "ROUNDROBIN"	
+)
+
+
 type Config struct {
-	LogLevel    slog.Level      `yaml:"log_level"`
-	MusicFolder string          `yaml:"music_folder"`
-	Playlists   []PlaylistEntry `yaml:"playlists"`
+	DownloadStrategy 	DownloadStrategy	`yaml:"download_strategy"`
+	LogLevel    			slog.Level      	`yaml:"log_level"`
+	MusicFolder 			string					 	`yaml:"music_folder"`
+	Playlists   			[]PlaylistEntry		`yaml:"playlists"`
 }
 
 type PlaylistEntry struct {
