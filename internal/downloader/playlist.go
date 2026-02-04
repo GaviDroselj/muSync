@@ -234,7 +234,7 @@ func (p *Playlist) downloadSong(song Song) error {
 		ProgressFunc(time.Millisecond*200, func(update ytdlp.ProgressUpdate) {
 			p.logger.Debug("Downloading...", "progress", fmt.Sprintf("%.1f%%", update.Percent()), "ETA", update.ETA())
 		}).
-		Output(fmt.Sprintf("%s/%s [%s]", p.Folder, strings.ReplaceAll(song.Title, "/", "|"), song.ID))
+		Output(fmt.Sprintf("%s/%s [%s]", p.Folder, song.SanitizedTitle(), song.ID))
 
 	_, err := dl.Run(context.TODO(), song.URL)
 	if err != nil {

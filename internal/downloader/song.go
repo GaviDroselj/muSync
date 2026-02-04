@@ -86,3 +86,20 @@ func (s *Song) Delete(folderPath string) error {
 	slog.Debug("Failed to find song scheduled for deletion on disk", "song", *s, "dirEntries", dir)
 	return nil
 }
+
+// Returns the song title with all potentially problematic characters for filename removed
+func (s *Song) SanitizedTitle() string {
+	const replacementChar = " "
+
+	title := strings.ReplaceAll(s.Title, "<", replacementChar)
+	title = strings.ReplaceAll(title, ">", replacementChar)
+	title = strings.ReplaceAll(title, ":", replacementChar)
+	title = strings.ReplaceAll(title, "\"", replacementChar)
+	title = strings.ReplaceAll(title, "/", replacementChar)
+	title = strings.ReplaceAll(title, "\\", replacementChar)
+	title = strings.ReplaceAll(title, "|", replacementChar)
+	title = strings.ReplaceAll(title, "?", replacementChar)
+	title = strings.ReplaceAll(title, "*", replacementChar)
+
+	return title
+}
