@@ -89,7 +89,7 @@ func (s *Song) Delete(folderPath string) error {
 
 // Returns the song title with all potentially problematic characters for filename removed
 func (s *Song) SanitizedTitle() string {
-	const replacementChar = " "
+	const replacementChar = "-"
 
 	title := strings.ReplaceAll(s.Title, "<", replacementChar)
 	title = strings.ReplaceAll(title, ">", replacementChar)
