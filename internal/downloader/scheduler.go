@@ -6,7 +6,7 @@ import (
 	"github.com/GaviDroselj/muSync/internal/config"
 )
 
-var index = 0
+var roundRobinIndex = 0
 
 func Schedule(playlists []*Playlist, downloadStrategy config.DownloadStrategyType) {
 
@@ -24,24 +24,23 @@ func Schedule(playlists []*Playlist, downloadStrategy config.DownloadStrategyTyp
 }
 
 // Find closest possible playlist with download attempt
-func possiblePlaylist(playlists []*Playlist, start int) *Playlist {
-	for i := start; i < len(playlists); i++ {
-		if playlists[i].NeedsUpdate() {
-			return playlists[i]
+func findNextPlaylist(playlists []*Playlist, start int) *Playlist {
+	for i := 0; i < len(playlists); i++ {
+		playlist := playlists[(i+start)%len(playlists)]
+		if playlist.NeedsUpdate() {
+			return playlist
 		}
 	}
 	return nil
 }
 
 func roundRobin(playlists []*Playlist) *Playlist {
-	playlist := possiblePlaylist(playlists, index)
-	index++
-	if index%len(playlists) == 0 {
-		index = 0
-	}
+	playlist := findNextPlaylist(playlists, roundRobinIndex)
+	roundRobinIndex = (roundRobinIndex + 1) % len(playlists)
+
 	return playlist
 }
 
 func priority(playlists []*Playlist) *Playlist {
-	return possiblePlaylist(playlists, 0)
+	return findNextPlaylist(playlists, 0)
 }
