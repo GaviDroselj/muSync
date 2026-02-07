@@ -6,41 +6,42 @@ import (
 	"github.com/GaviDroselj/muSync/internal/config"
 )
 
+var index = 0
+
 func Schedule(playlists []*Playlist, downloadStrategy config.DownloadStrategyType) {
 
-	index := -1
-	length := len(playlists)
-
 	for {
-		var start int
+		var playlist *Playlist
 		switch downloadStrategy {
 		case config.Priority:
-			start = 0
+			playlist = priority(playlists)
 		case config.RoundRobin:
-			index = RoundRobin(playlists, index, length)
-			start = index
+			playlist = roundRobin(playlists)
 		}
-
-		for i := start; i < len(playlists); i++ {
-			if playlists[i].LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-				playlists[i].Update()
-				break
-			}
-
-			queueHasItems := playlists[i].ProcessQueue()
-			if queueHasItems {
-				break
-			}
-		}
-
-		//time.Sleep(time.Minute)
+		playlist.Update()
+		time.Sleep(time.Minute)
 	}
 }
 
-func RoundRobin(pl []*Playlist, i int, l int) int {
-	i++
-	if i%l == 0 {
-		i = 0
+// Find closest possible playlist with download attempt
+func possiblePlaylist(playlists []*Playlist, start int) *Playlist {
+	for i := start; i < len(playlists); i++ {
+		if playlists[i].NeedsUpdate() {
+			return playlists[i]
+		}
 	}
-	return i
+	return nil
+}
+
+func roundRobin(playlists []*Playlist) *Playlist {
+	playlist := possiblePlaylist(playlists, index)
+	index++
+	if index%len(playlists) == 0 {
+		index = 0
+	}
+	return playlist
+}
+
+func priority(playlists []*Playlist) *Playlist {
+	return possiblePlaylist(playlists, 0)
 }
