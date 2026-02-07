@@ -6,45 +6,38 @@ import (
 	"github.com/GaviDroselj/muSync/internal/config"
 )
 
-func Schedule(pl []*Playlist, ds config.DownloadStrategyType) {
+func Schedule(playlists []*Playlist, downloadStrategy config.DownloadStrategyType) {
 
-	index := 0
-	length := len(pl)
+	index := -1
+	length := len(playlists)
 
 	for {
-		switch ds {
+		var start int
+		switch downloadStrategy {
 		case config.Priority:
-			Priority(pl)
+			start = 0
 		case config.RoundRobin:
-			index = RoundRobin(pl, index, length)
+			index = RoundRobin(playlists, index, length)
+			start = index
 		}
+
+		for i := start; i < len(playlists); i++ {
+			if playlists[i].LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
+				playlists[i].Update()
+				break
+			}
+
+			queueHasItems := playlists[i].ProcessQueue()
+			if queueHasItems {
+				break
+			}
+		}
+
 		//time.Sleep(time.Minute)
 	}
 }
 
-func Priority(pl []*Playlist) {
-	for _, playlist := range pl {
-		if playlist.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-			playlist.Update()
-			break
-		}
-
-		downloaded := playlist.ProcessQueue()
-		if downloaded {
-			break
-		}
-	}
-}
-
 func RoundRobin(pl []*Playlist, i int, l int) int {
-	if pl[i].LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-		pl[i].Update()
-	}
-
-	downloaded := pl[i].ProcessQueue()
-	if downloaded {
-	}
-
 	i++
 	if i%l == 0 {
 		i = 0
