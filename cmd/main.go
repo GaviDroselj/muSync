@@ -3,6 +3,7 @@ package main
 import (
 	"log/slog"
 	"os"
+	"time"
 
 	"github.com/GaviDroselj/go-ytdlp"
 	"github.com/GaviDroselj/muSync/dependencies"
@@ -37,5 +38,18 @@ func main() {
 		playlists = append(playlists, newPlaylist)
 	}
 
-	downloader.Schedule(playlists, conf.DownloadStrategy)
+	for {
+		for _, playlist := range playlists {
+			if playlist.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
+				playlist.Update()
+				break
+			}
+
+			downloaded := playlist.ProcessQueue()
+			if downloaded {
+				break
+			}
+		}
+		time.Sleep(time.Minute)
+	}
 }
