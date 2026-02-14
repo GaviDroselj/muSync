@@ -68,7 +68,7 @@ func (p *Playlist) SyncFromDisk() {
 	p.logger.Info("Synced playlist from disk", "downloadedSongs", len(p.Songs))
 }
 
-func (p *Playlist) refresh() {
+func (p *Playlist) Update() {
 	p.logger.Debug("Updating playlist from remote...")
 	newSongs, err := p.fetchPlaylistSongs()
 	if err != nil {
@@ -164,32 +164,14 @@ func (p *Playlist) popQueue() Song {
 	return song
 }
 
-// Checks whether playlist needs a refresh or has queued items
-func (p *Playlist) NeedsUpdate() bool {
-	if p.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-		return true
-	}
+// Download one queue entry if available, return true if download occured
+func (p *Playlist) ProcessQueue() bool {
+	p.logger.Debug("Processing download queue...")
+	defer p.logger.Debug("Finished processing download queue")
 	if len(p.DownloadQueue) == 0 {
 		p.logger.Debug("Queue empty, skipping")
 		return false
 	}
-	return true
-}
-
-// Runs refresh if needed, otherwise attempts to download
-func (p *Playlist) Update() {
-	if p.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-		p.refresh()
-		return
-	}
-
-	p.processQueueItem()
-}
-
-// Attempt to download one queue entry, return true if download occured
-func (p *Playlist) processQueueItem() bool {
-	p.logger.Debug("Processing download queue...")
-	defer p.logger.Debug("Finished processing download queue")
 
 	err := p.pruneQueue()
 	if err != nil {
