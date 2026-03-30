@@ -5,10 +5,10 @@ import (
 	"os"
 	"time"
 
-	"github.com/GaviDroselj/go-ytdlp"
-	"github.com/GaviDroselj/muSync/dependencies"
-	"github.com/GaviDroselj/muSync/internal/config"
-	"github.com/GaviDroselj/muSync/internal/downloader"
+	"github.com/gavidroselj/musync/dependencies"
+	"github.com/gavidroselj/musync/internal/config"
+	"github.com/gavidroselj/musync/internal/downloader"
+	"github.com/lrstanley/go-ytdlp"
 )
 
 func main() {

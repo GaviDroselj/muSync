@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"testing"
 
-	"github.com/GaviDroselj/muSync/internal/config"
-	"github.com/GaviDroselj/muSync/internal/xtesting"
+	"github.com/gavidroselj/musync/internal/config"
+	"github.com/gavidroselj/musync/internal/xtesting"
 )
 
 func getTestingPlaylist() *Playlist {
