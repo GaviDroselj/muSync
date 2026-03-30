@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/GaviDroselj/muSync/dependencies"
+	"github.com/gavidroselj/musync/dependencies"
 )
 
 func main() {

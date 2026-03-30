@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/GaviDroselj/go-ytdlp"
+	"github.com/lrstanley/go-ytdlp"
 )
 
 const deletionGracePeriod = 1

@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/GaviDroselj/go-ytdlp"
+	"github.com/lrstanley/go-ytdlp"
 )
 
 func DonwloadDependencies(logger *slog.Logger) {
