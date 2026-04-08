@@ -3,7 +3,6 @@ package main
 import (
 	"log/slog"
 	"os"
-	"time"
 
 	"github.com/gavidroselj/musync/dependencies"
 	"github.com/gavidroselj/musync/internal/config"
@@ -38,18 +37,5 @@ func main() {
 		playlists = append(playlists, newPlaylist)
 	}
 
-	for {
-		for _, playlist := range playlists {
-			if playlist.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
-				playlist.Update()
-				break
-			}
-
-			downloaded := playlist.ProcessQueue()
-			if downloaded {
-				break
-			}
-		}
-		time.Sleep(time.Minute)
-	}
+	downloader.Schedule(playlists, conf.DownloadStrategy)
 }
