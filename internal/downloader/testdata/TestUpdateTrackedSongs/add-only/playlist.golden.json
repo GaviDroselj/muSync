@@ -30,5 +30,6 @@
       "deleted_iterations": 0
     }
   ],
-  "last_update": "0001-01-01T00:00:00Z"
+  "last_update": "0001-01-01T00:00:00Z",
+  "deletion_iterations": 5
 }

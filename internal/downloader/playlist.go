@@ -18,24 +18,26 @@ import (
 var fileIDRegex = regexp.MustCompile(`.*\[(.*)\].mp3`)
 
 type Playlist struct {
-	Name          string           `json:"name"`
-	URL           string           `json:"url"`
-	Songs         map[string]*Song `json:"songs"`
-	Folder        string           `json:"folder"`
-	DownloadQueue []Song           `json:"download_queue"`
-	LastUpdate    time.Time        `json:"last_update"`
+	Name               string           `json:"name"`
+	URL                string           `json:"url"`
+	Songs              map[string]*Song `json:"songs"`
+	Folder             string           `json:"folder"`
+	DownloadQueue      []Song           `json:"download_queue"`
+	LastUpdate         time.Time        `json:"last_update"`
+	DeletionIterations int              `json:"deletion_iterations"`
 
 	logger *slog.Logger `json:"-"`
 }
 
 func NewPlaylist(c config.Config, pe config.PlaylistEntry, logger *slog.Logger) *Playlist {
 	playlist := Playlist{
-		Name:          pe.Name,
-		URL:           pe.URL,
-		Folder:        path.Join(c.MusicFolder, pe.Subfolder),
-		Songs:         map[string]*Song{},
-		logger:        logger.With("playlist", pe.Name),
-		DownloadQueue: []Song{},
+		Name:               pe.Name,
+		URL:                pe.URL,
+		Folder:             path.Join(c.MusicFolder, pe.Subfolder),
+		Songs:              map[string]*Song{},
+		logger:             logger.With("playlist", pe.Name),
+		DeletionIterations: c.DeletionIterations,
+		DownloadQueue:      []Song{},
 	}
 	return &playlist
 }
@@ -137,7 +139,7 @@ func (p *Playlist) updateTrackedSongs(newSongs []Song) {
 		if !slices.ContainsFunc(newSongs, func(a Song) bool {
 			return song.ID == a.ID
 		}) {
-			deleted := song.DeleteAttempt(p.Folder)
+			deleted := song.DeleteAttempt(p.Folder, p.DeletionIterations)
 			deleteCountdownSongCount++
 			if deleted {
 				delete(p.Songs, song.ID)

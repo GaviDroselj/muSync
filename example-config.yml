@@ -1,5 +1,6 @@
 log_level: INFO
 music_folder: music
+deletion_iterations: 5
 playlists:
   - name: Playlist1
     url: https://www.youtube.com/playlist?list=abcd1234
