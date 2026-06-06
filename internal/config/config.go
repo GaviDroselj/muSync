@@ -10,9 +10,10 @@ import (
 const ConfigPath = "config.yml"
 
 type Config struct {
-	LogLevel    slog.Level      `yaml:"log_level"`
-	MusicFolder string          `yaml:"music_folder"`
-	Playlists   []PlaylistEntry `yaml:"playlists"`
+	LogLevel           slog.Level      `yaml:"log_level"`
+	MusicFolder        string          `yaml:"music_folder"`
+	Playlists          []PlaylistEntry `yaml:"playlists"`
+	DeletionIterations int             `yaml:"deletion_iterations"`
 }
 
 type PlaylistEntry struct {

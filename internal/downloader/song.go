@@ -9,8 +9,6 @@ import (
 	"github.com/lrstanley/go-ytdlp"
 )
 
-const deletionGracePeriod = 1
-
 type Song struct {
 	ID                string `json:"id"`
 	URL               string `json:"url"`
@@ -45,11 +43,11 @@ func (s *Song) ResetDeleteCounter() {
 	s.DeletedIterations = 0
 }
 
-// Delete song if it has been absent for deletionGracePeriod playlist refreshes
+// Delete song if it has been absent for deletionIterations playlist refreshes
 // This ensures a single bad response from server will not wipe out the entire library
-func (s *Song) DeleteAttempt(folderPath string) bool {
+func (s *Song) DeleteAttempt(folderPath string, deletionIterations int) bool {
 	s.DeletedIterations++
-	if s.DeletedIterations < deletionGracePeriod {
+	if s.DeletedIterations < deletionIterations {
 		return false
 	}
 

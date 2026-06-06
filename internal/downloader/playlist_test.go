@@ -10,7 +10,8 @@ import (
 
 func getTestingPlaylist() *Playlist {
 	playlist := NewPlaylist(config.Config{
-		MusicFolder: "music",
+		MusicFolder:        "music",
+		DeletionIterations: 5,
 	}, config.PlaylistEntry{
 		Name:      "test",
 		URL:       "http://test.com/test",
