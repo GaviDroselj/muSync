@@ -164,9 +164,14 @@ func (p *Playlist) popQueue() Song {
 	return song
 }
 
+// Checks whether playlist was updated in the last 6 hours
+func (p *Playlist) isStale() bool {
+	return p.LastUpdate.Before(time.Now().Add(-time.Hour * 6))
+}
+
 // Checks whether playlist needs a refresh or has queued items
 func (p *Playlist) NeedsUpdate() bool {
-	if p.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
+	if p.isStale() {
 		return true
 	}
 	if len(p.DownloadQueue) == 0 {
@@ -178,7 +183,7 @@ func (p *Playlist) NeedsUpdate() bool {
 
 // Runs refresh if needed, otherwise attempts to download
 func (p *Playlist) Update() {
-	if p.LastUpdate.Before(time.Now().Add(-time.Hour * 6)) {
+	if p.isStale() {
 		p.refresh()
 		return
 	}
