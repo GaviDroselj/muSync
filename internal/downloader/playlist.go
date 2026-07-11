@@ -56,6 +56,11 @@ func (p *Playlist) SyncFromDisk() {
 
 	for _, entry := range dir {
 		idCandidates := fileIDRegex.FindStringSubmatch(entry.Name())
+		if len(idCandidates) == 0 {
+			p.logger.Warn("Found file with no recognized ID on disk, skipping", "name", entry.Name())
+			continue
+		}
+
 		id := idCandidates[len(idCandidates)-1]
 
 		if _, exists := p.Songs[id]; exists {
